@@ -1,23 +1,18 @@
-[project]
+[tool.poetry]
 name = "bookstore"
 version = "0.1.0"
 description = "bookstore api"
-authors = [
-    {name = "rafaelglowack1",email = "149637380+rafaelglowack1@users.noreply.github.com"}
-]
+authors = ["rafaelglowack1 <149637380+rafaelglowack1@users.noreply.github.com>"]
 readme = "README.md"
-requires-python = ">=3.13"
-dependencies = [
-    "django (>=5.2.7,<6.0.0)",
-    "djangorestframework (>=3.16.1,<4.0.0)"
-]
 
-[dependency-groups]
-dev = [
-    "pytest (>=8.4.2,<9.0.0)",
-    "factory-boy (>=3.3.3,<4.0.0)"
-]
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.2.7"
+djangorestframework = "^3.16.1"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.2"
+factory-boy = "^3.3.3"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
