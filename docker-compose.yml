@@ -25,6 +25,7 @@ services:
       - POSTGRES_DB=bookstore_db
     networks:
       - backend
+# declarado o tipo de network 
 networks:
   backend:
     driver: bridge
