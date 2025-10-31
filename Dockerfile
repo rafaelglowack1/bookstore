@@ -1,39 +1,25 @@
-FROM python:3.12-slim AS python-base
+FROM python:3.12-slim
 
-# Variáveis de ambiente
-ENV PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=off \
-    PIP_DISABLE_PIP_VERSION_CHECK=on \
-    PIP_DEFAULT_TIMEOUT=100 \
-    POETRY_VERSION=1.8.4 \
-    POETRY_HOME="/opt/poetry" \
-    POETRY_VIRTUALENVS_IN_PROJECT=true \
-    PATH="/opt/poetry/bin:$PATH"
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Instalar dependências do sistema e Poetry
-RUN apt-get update && apt-get install --no-install-recommends -y \
-        curl build-essential libpq-dev gcc libc-dev \
-    && curl -sSL https://install.python-poetry.org | python3 - \
-    && poetry --version \
-    && apt-get purge --auto-remove -y build-essential \
-    && apt-get clean \
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    curl \
+    gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Configurar diretório de trabalho
-WORKDIR /app
+# Instala poetry e adiciona ao PATH
+RUN curl -sSL https://install.python-poetry.org | python3 -
+ENV PATH="/root/.local/bin:$PATH"
 
-# Copiar arquivos de configuração do Poetry
-COPY poetry.lock pyproject.toml ./
+WORKDIR /usr/src/app
 
-# Instalar dependências do Poetry (runtime) — usar nova flag
-RUN poetry install --only main
+COPY pyproject.toml poetry.lock ./
 
-# Copiar código-fonte do projeto
+RUN poetry install --only main --no-root
+
 COPY . .
 
-# Expor a porta padrão do Django
 EXPOSE 8000
-
-# Comando padrão para rodar o servidor Django
-CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
