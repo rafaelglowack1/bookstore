@@ -2,22 +2,22 @@
 name = "bookstore"
 version = "0.1.0"
 description = "Bookstore API"
-authors = ["hsanfilippo <henrique.sanfilippo@gmail.com>"]
+authors = ["rafaelglowacki <rafaelglowacki555@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-pytest = "^8.3.2"
-factory-boy = "^3.3.0"
 django = "^5.1"
-django-rest-framework = "^0.1.0"
-black = "^24.8.0"
+djangorestframework = "^3.16.1"
 django-extensions = "^3.2.3"
 django-debug-toolbar = "^4.4.6"
-djangorestframework = "^3.16.1"
 psycopg2-binary = "^2.9.11"
 gitpython = "^3.1.45"
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.2"
+factory-boy = "^3.3.0"
+black = "^24.8.0"
 
 [build-system]
 requires = ["poetry-core"]
